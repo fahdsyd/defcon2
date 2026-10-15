@@ -151,6 +151,14 @@ def status():
         "closes_at": REGISTRATION_CLOSE.isoformat(),
     }
 
+@app.get("/api/health")
+def health():
+    try:
+        with psycopg.connect(DATABASE_URL) as conn:
+            conn.execute("select 1")
+        return {"ok": True}
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unreachable")
 
 @app.post("/api/register", status_code=201)
 @limiter.limit("5/minute")

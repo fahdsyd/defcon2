@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Header from './components/Header';
 import Terminal from './components/Terminal';
 import RegisterDialog from './components/RegisterDialog';
-import NotFound from './components/NotFound';
+import Landing from './components/Landing';
 
 const GATEWAY_PATH = '/ops-gateway';
 
@@ -10,9 +10,9 @@ export default function App() {
   const [solved, setSolved] = useState({ recon: false, keyring: false });
   const [registerOpen, setRegisterOpen] = useState(false);
 
-  // Everything except the gateway path shows the 404 page
+  // Only the gateway path shows the terminal; everything else shows the landing page
   const onGateway = window.location.pathname.replace(/\/+$/, '') === GATEWAY_PATH;
-  if (!onGateway) return <NotFound />;
+  if (!onGateway) return <Landing />;
 
   function handleSolve(key) {
     setSolved((s) => ({ ...s, [key]: true }));

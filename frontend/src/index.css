@@ -166,45 +166,31 @@ input:focus { outline: none; border-color: var(--green-dim); }
 }
 
 /* Subtle glitch on the hint text */
-.glitch::before,
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  overflow: hidden;
-  background: var(--bg);
-  pointer-events: none;
-}
-.glitch::before {
-  color: var(--red);
-  clip-path: inset(0 0 60% 0);
-  animation: glitch-top 4s infinite steps(1);
-}
-.glitch::after {
+/* Glitch effect on the hint text: brief flicker, text stays aligned */
+.glitch {
   color: var(--green);
-  clip-path: inset(60% 0 0 0);
-  animation: glitch-bottom 4s infinite steps(1);
+  animation: glitch-text 3.5s infinite steps(1);
 }
 
-@keyframes glitch-top {
-  0%, 90%, 100% { clip-path: inset(0 0 60% 0); transform: none; }
-  91% { clip-path: inset(10% 0 40% 0); transform: translateX(-3px); }
-  94% { clip-path: inset(30% 0 30% 0); transform: translateX(2px); }
-}
-@keyframes glitch-bottom {
-  0%, 90%, 100% { clip-path: inset(60% 0 0 0); transform: none; }
-  92% { clip-path: inset(70% 0 5% 0); transform: translateX(3px); }
-  95% { clip-path: inset(50% 0 20% 0); transform: translateX(-2px); }
+@keyframes glitch-text {
+  0%, 88%, 100% {
+    transform: none;
+    text-shadow: 2px 0 var(--red), -2px 0 var(--green-dim);
+  }
+  89% {
+    transform: translateX(-3px);
+    text-shadow: -3px 0 var(--red), 3px 0 var(--amber);
+  }
+  91% {
+    transform: translateX(2px);
+    text-shadow: 2px 0 var(--red), -2px 0 var(--green-dim);
+  }
+  93% {
+    transform: none;
+    text-shadow: 0 0 var(--green), 0 0 transparent;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .glitch::before,
-  .glitch::after { display: none; }
-}
-
-@media (max-width: 800px) {
-  .landing { padding-top: 20px; }
-  
+  .glitch { animation: none; }
 }
